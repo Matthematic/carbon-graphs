@@ -20,7 +20,7 @@ import {
     getXAxisYPosition,
     getYAxisYPosition
 } from "./creationHelpers";
-import { calculatePercentage } from "./durationHelpers";
+import { isAChunk, calculatePercentage } from "./durationHelpers";
 import { generatorArgs } from "./trackHelpers";
 import { translateDateline } from "../../../helpers/dateline";
 
@@ -407,11 +407,19 @@ const translateDataPoints = (scale, config, trackPath) => {
  * @param {Selection} path - d3 object of track
  * @returns {undefined} - returns nothing
  */
-const translateTaskBar = (scale, path) =>
-    path
+const translateTaskBar = (scale, path) => {
+    return path
         .transition()
         .call(constants.d3Transition)
-        .attr("x", (val) => scale.x(val.startDate))
+        .attr("x", (val) => {
+            //console.log("TRANSLATING TASK BAR BY ", (isAChunk(val.startDate, val.endDate) ? (constants.DEFAULT_GANTT_TASK_CHUNK_WIDTH / 2) : 0))
+            return (
+                scale.x(val.startDate) -
+                (isAChunk(val.startDate, val.endDate)
+                    ? constants.DEFAULT_GANTT_TASK_CHUNK_WIDTH / 2
+                    : 0)
+            );
+        })
         .attr(
             "y",
             (val) => scale.y(val.y) + constants.DEFAULT_GANTT_TASK_PADDING.top
@@ -433,6 +441,7 @@ const translateTaskBar = (scale, path) =>
                 );
             }
         });
+};
 /**
  * Translates activity bars when resized.
  *
@@ -481,7 +490,15 @@ const translateTaskIndicator = (scale, path) => {
     );
     path.transition()
         .call(constants.d3Transition)
-        .attr("x", (val) => scale.x(val.startDate) - positionAdjustment)
+        .attr(
+            "x",
+            (val) =>
+                scale.x(val.startDate) -
+                positionAdjustment -
+                (isAChunk(val.startDate, val.endDate)
+                    ? constants.DEFAULT_GANTT_TASK_CHUNK_WIDTH / 2
+                    : 0)
+        )
         .attr(
             "y",
             (val) =>

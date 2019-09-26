@@ -92,7 +92,14 @@ const getBar = (path, x, y, width, height, style) => {
  * @returns {Selection} d3 selection path
  */
 const getChunk = (path, x, y, width, height, style) => {
-    getBar(path, x, y, constants.DEFAULT_GANTT_TASK_CHUNK_WIDTH, height, style);
+    getBar(
+        path,
+        x - constants.DEFAULT_GANTT_TASK_CHUNK_WIDTH / 2,
+        y,
+        constants.DEFAULT_GANTT_TASK_CHUNK_WIDTH,
+        height,
+        style
+    );
     return path;
 };
 /**
