@@ -155,6 +155,7 @@
     "build:dist": "webpack --config ./build/webpack/webpack.config.js --env.TYPE=DIST",
     "build:site": "npm run docs && webpack --config ./build/webpack/site.webpack.js --env.TYPE=SITE",
     "clean": "rimraf dist lib",
+    "prepare": "npm run build:dist",
     "dev": "node ./build/webpack/dev-server.js",
     "docs": "node_modules/.bin/jsdoc -c jsdoc.json",
     "lint": "npm run lint:source && npm run lint:styles && npm run docs",
