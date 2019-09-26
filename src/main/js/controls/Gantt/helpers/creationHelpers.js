@@ -295,7 +295,7 @@ const scaleGraph = (scale, config) => {
         .scale()
         .domain(config.axis.x.domain)
         .range([0, getXAxisWidth(config)])
-        .clamp(true);
+        .clamp(false);
     scale.y = d3.scale
         .ordinal()
         .domain(getYAxisDomain(config.axis.y.trackList))
