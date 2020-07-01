@@ -13,6 +13,7 @@ export const CIRCLE = {
     },
     options: { x: -5, y: -5, scale: 0.2 }
 };
+
 /**
  * The S_0002_diamond.svg SVG file as an object.
  *
